@@ -2,13 +2,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.multioutput import ClassifierChain
-from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, hamming_loss, accuracy_score
-
-from sklearn.ensemble import GradientBoostingClassifier
-
-
 
 # Load the dataset
 data = pd.read_csv('LungCancer32.csv')
@@ -26,21 +22,19 @@ X_scaled = scaler.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3,
                                                     random_state=42)
 
-base_gb = GradientBoostingClassifier(random_state=42)
-chain = ClassifierChain(base_gb, order='random', random_state=42)
+base_nb = GaussianNB()
+chain = ClassifierChain(base_nb, order='random', random_state=42)
 
 # Define hyperparameters and perform hyperparameter tuning
-param_grid = {'base_estimator__n_estimators': [10, 50, 100],
-              'base_estimator__learning_rate': [0.01, 0.1, 0.5]}
+param_grid = {}  # GaussianNB doesn't have hyperparameters to tune
 clf = GridSearchCV(chain, param_grid, cv=5)
 clf.fit(X_train, y_train)
-
 
 # Predict on the test set
 y_pred = clf.predict(X_test)
 
-# Print the best hyperparameters
-print("Best Hyperparameters:", clf.best_params_)
+# Print the best hyperparameters (none for GaussianNB)
+print("Best Hyperparameters: No hyperparameters for GaussianNB")
 
 # Evaluate the model
 print("Classification Report:\n", classification_report(y_test, y_pred))
