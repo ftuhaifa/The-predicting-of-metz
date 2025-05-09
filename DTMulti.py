@@ -25,7 +25,12 @@ start_time = time.time()
 
 data = pd.read_csv('LungCancer32.csv')
 
-X = data[['Age', 'Sex', 'Behavior', 'Primary_Site', 'Laterality', 'Race',
+#X = data[['Age', 'Sex', 'Behavior', 'Primary_Site', 'Laterality', 'Race',
+#          'Histology', 'TNM', 'Reason_no_surgey']]
+#y = data[['DX-bone', 'DX-brain', 'DX-liver']]
+
+
+X = data[['Age', 'Sex', 'Primary_Site', 'Laterality', 'Race',
           'Histology', 'TNM', 'Reason_no_surgey']]
 y = data[['DX-bone', 'DX-brain', 'DX-liver']]
 
